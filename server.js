@@ -4,7 +4,7 @@ var express = require('express'),
     app = express();
 
 var myLimit = typeof(process.argv[2]) != 'undefined' ? process.argv[2] : '10000kb';
-var myPort = 3333;
+var myPort = process.env.PORT || 3000;;
 console.log('Using limit: ', myLimit);
 var urlPrefix = 'http://localhost:'+myPort+'/';
 
