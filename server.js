@@ -31,13 +31,28 @@ app.all('*', function (req, res, next) {
         console.log(targetURL );
         console.log(req.method);
         console.log(req.header('Authorization'));
-        request({ url: targetURL, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
-            function (error, response, body) {
-                if (error) {
-                    console.error('error: ' + response.statusCode)
-                }
-//                console.log(body);
-            }).pipe(res);
+        if (!req.header('Authorization'))
+        {
+         console.log('Requesting '+ targetURL + ' without Header');
+         request({ url: targetURL, method: req.method, json: req.body },
+                function (error, response, body) {
+                    if (error) {
+                        console.error('error: ' + response.statusCode)
+                    }
+    //                console.log(body);
+                }).pipe(res);           
+        }
+        else
+        {
+            console.log('Requesting '+ targetURL + ' With Header');
+            request({ url: targetURL, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
+                function (error, response, body) {
+                    if (error) {
+                        console.error('error: ' + response.statusCode)
+                    }
+    //                console.log(body);
+                }).pipe(res);
+        }
     }
 });
 
